@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<link rel="stylesheet" href="/static/css/reset.css" />
+	<link rel="stylesheet" href="/static/css/main.css" />
+  <link rel="stylesheet" href="/static/css/main2.css" />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+	<script type = "text/javascript" src= "http://code.jquery.com/jquery-1.9.1.js"></script>
+	<title></title>
+</head>
+<body>
+{% include "hexagons.html" with hex_id="bighex0" size="large" solid="true" %}
+{% include "hexagons.html" with hex_id="hex0" size="small" hex_text="yolo" text_id="yolo" solid="true" link="http://www.yoloswag.com" %}
+{% include "hexagons.html" with hex_id="hex1" size="small" solid="true" %}
+{% include "hexagons.html" with hex_id="hex2" size="small" hex_text="swag" text_id="swag" link="http://www.yoloswag.com" %}
+{% include "hexagons.html" with hex_id="hex3" size="small" solid="true" %}
+{% include "hexagons.html" with hex_id="hex4" size="small" %}
+{% include "hexagons.html" with hex_id="bighex1" size="large" hex_text="keion 10/10" link="http://www.yoloswag.com"%}
+<!--
+<div class="menu_options">
+
+	<div id="pricing">
+		<div class="outermost_hex pricing"><div class="outer_hex pricing"><div class="larger_hex pricing"><div class="hex pricing">
+			<a href="#"><div class="text pricing">Pricing</div></a>
+		</div></div></div></div>
+	</div>
+</div>-->
+
+</body>
+</html>
