@@ -3,29 +3,111 @@
 <html>
 <head>
 	<link rel="stylesheet" href="/static/css/reset.css" />
-	<link rel="stylesheet" href="/static/css/main.css" />
-  <link rel="stylesheet" href="/static/css/main2.css" />
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/static/css/main2.css" />
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
 	<script type = "text/javascript" src= "http://code.jquery.com/jquery-1.9.1.js"></script>
+	<script type = "text/javascript" src="/static/js/home_slide.js"></script>
+	<link href="/static/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+	<script type="text/javascript">
+	$(window).bind("load", function() {
+		var numSlides = 2;
+		startSlideshow(numSlides);
+
+		$("#choices").change(function() {
+			$(".section_item").css("display", "none");
+			if($(this).val() == "international") {
+				$('.International').css("display", "inherit");
+			}
+			else if($(this).val() == "environmental") {
+				$('.Environmental').css("display", "inherit");
+			}
+			else if($(this).val() == "justice") {
+				$('.Justice').css("display", "inherit");
+			}
+			else if($(this).val() == "health") {
+				$('.Health').css("display", "inherit");
+			}
+			else if($(this).val() == "education") {
+				$(".Education").css("display", "inherit");
+			}
+			else if($(this).val() == "energy") {
+				$(".Energy").css("display", "inherit");
+			}
+			else if($(this).val() == "all") {
+				$(".section_item").css("display", "inherit");
+			}
+		});
+	});
+	</script>
+
 	<title></title>
 </head>
 <body>
-{% include "hexagons.html" with hex_id="bighex0" size="large" solid="true" %}
-{% include "hexagons.html" with hex_id="hex0" size="small" hex_text="yolo" text_id="yolo" solid="true" link="http://www.yoloswag.com" %}
-{% include "hexagons.html" with hex_id="hex1" size="small" solid="true" %}
-{% include "hexagons.html" with hex_id="hex2" size="small" hex_text="swag" text_id="swag" link="http://www.yoloswag.com" %}
-{% include "hexagons.html" with hex_id="hex3" size="small" solid="true" %}
-{% include "hexagons.html" with hex_id="hex4" size="small" %}
-{% include "hexagons.html" with hex_id="bighex1" size="large" hex_text="keion 10/10" link="http://www.yoloswag.com"%}
-<!--
-<div class="menu_options">
+	<div id="main_body">
+		{% include 'menu.html' %}
+		<div id="slideshow">
+			{% for post in major_posts|slice:":2" %}
+				<div class="slide" id="slide{{forloop.counter}}"/>
+				<a href="post_{{post.ngo.name|slugify}}_{{post.post_id}}"><img class="slide_img" src="{{ post.image.path | slice:"44:" }}" /></a>
+				<div class="slide_descrip">
+					<div class="slide_title"> {{ post.title }} </div>
+					<div class="slide_news"> {{ post.news }} </div>
+				</div>
+				</div>
+			{% endfor %}
+		</div>
 
-	<div id="pricing">
-		<div class="outermost_hex pricing"><div class="outer_hex pricing"><div class="larger_hex pricing"><div class="hex pricing">
-			<a href="#"><div class="text pricing">Pricing</div></a>
-		</div></div></div></div>
+		<div id="most_popular">
+			<div class="section_title"> Most Popular </div> 
+
+			<div id="sort_field">
+				<div style="font-size: 20px; margin-bottom: 10px; width: 150px;"> Sort By Topic </div>
+				<select id="choices">
+					<option value="all">All</option>
+					<option value="environmental">Environmental</option>
+					<option value="justice">Justice</option>
+					<option value="international">International</option>
+					<option value="health">Health</option>
+					<option value="education">Education</option>
+					<option value="energy">Energy</option>
+				</select>
+			</div>
+			{% for post in all_posts|slice:":3" %}
+				<div class="section_item {% for class in post.classifications.all %}{{class.classification}} {% endfor %}">
+					<div class="item_ngo_name"> {{ post.ngo.name }} </div>
+					<div class="item_title"> {{ post.title }} </div>
+					<a href="post_{{post.ngo.name|slugify}}_{{post.post_id}}"><img class="item_img" src={{ post.image.path | slice:"44:" }} /></a>
+					<div class="item_news"> {{ post.news }} </div>
+				</div>
+			{% endfor %}
+
+			<a href="#" class="classname" style="position: absolute; top: 650px; left: 525px;">Show More</a>
+		</div>
+
 	</div>
-</div>-->
-
+	<div id="side_menu">
+		<div class="side_menu_item" id="side_menu_title">Quick Links</div>
+		<div class="side_menu_item">Environmental</div>
+		<div class="side_menu_item">Justice</div>
+		<div class="side_menu_item">International</div>
+		<div class="side_menu_item">Health</div>
+		<div class="side_menu_item">Education</div>
+		<div class="side_menu_item">Energy</div>
+	</div>
+	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script>
+	(function($){
+		$(window).load(function(){
+			$(".item_news").mCustomScrollbar({
+				autoHideScrollbar:true,
+				theme:"dark-thin",
+			});
+			$(".slide_news").mCustomScrollbar({
+				autoHideScrollbar:true,
+				theme:"dark-thin",
+			});
+		});
+	})(jQuery);
+	</script>
 </body>
 </html>
