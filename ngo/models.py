@@ -6,7 +6,7 @@ import uuid
 class NGO(models.Model):
 	name = models.CharField(max_length=50)
 	website = models.URLField()
-	logo = models.ImageField(upload_to="kdr/static/img/database_items/")
+	logo = models.FileField(upload_to="kdr/static/img/database_items/")
 
 	def __unicode__(self):
 		return self.name
