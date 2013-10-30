@@ -48,7 +48,7 @@ class NGO_Post(models.Model):
 	author = models.CharField(max_length=30, blank=True)
 	original_link = models.URLField()
 	ngo = models.ForeignKey(NGO)
-	image = models.ImageField(upload_to="static/img/database_items/")
+	image = models.FileField(upload_to="static/img/database_items/")
 	classifications = models.ManyToManyField(NGO_Classification)
 	post_id = UUIDField()
 
