@@ -74,6 +74,16 @@ def login_request(request):
         return redirect('/admin_page')
     return redirect('/')
 
+def admin_add_parent(request):
+    if request.method == 'POST': 
+        post = NGO(logo=request.FILES['image'], name=request.POST['ngo_name'], website=request.POST['ngo_site'],)
+        post.save()
+
+        global success
+        success = True
+        return redirect('/admin_page')
+    return redirect('/')
+
 def admin_add_ngo(request):
     if request.method == 'POST': 
         target_ngo = NGO.objects.filter(name=request.POST['ngo_parent'])[0]

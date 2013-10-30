@@ -14,8 +14,10 @@ urlpatterns = patterns('',
     url(r'^post.*', post_page),
     url(r'^admin_page', admin_page),
     url(r'^login', login_request),
+    url(r'^admin_add_ngo_parent', admin_add_parent),
     url(r'^admin_add_ngo', admin_add_ngo),
     url(r'^admin_delete_ngo', admin_delete_ngo),
+
     # Examples:
     # url(r'^$', 'kdr.views.home', name='home'),
     # url(r'^kdr/', include('kdr.foo.urls')),

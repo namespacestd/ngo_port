@@ -38,8 +38,15 @@
             text-align: left;
         }
 
+        .add_ngo_post {
+            position: absolute;
+            right: 30px;
+            width: 500px;
+            font-size: 18px;
+        }
         .add_ngo {
             position: absolute;
+            margin-top: 775px;
             right: 30px;
             width: 500px;
             font-size: 18px;
@@ -98,13 +105,13 @@
                 
             </div>
 
-            <div class="add_ngo">
+            <div class="add_ngo_post">
                 Add NGO Post <br/><br/>
 
                 <form action="/admin_add_ngo/" method="post" enctype="multipart/form-data" id="form_ngo_add">
                     {% csrf_token %}
 
-                    <input class="add_field" type="text" placeholder="Title" name="ngo_title"> </input> <br/>
+                    <input class="add_field" required="true" type="text" placeholder="Title" name="ngo_title"> </input> <br/>
                     Month: <select name="ngo_month">
                         <option value="January"> January </option>
                         <option value="February"> February </option>
@@ -119,9 +126,9 @@
                         <option value="November"> November </option>
                         <option value="December"> December </option>
                     </select> <br/>
-                    <input class="add_field" type="text" placeholder="Year" name="ngo_year"> </input> <br/>
-                    <textarea class="add_field" rows="20" placeholder="News" name="ngo_news" > </textarea> <br/>
-                    <input class="add_field" type="text" placeholder="Author" name="ngo_author"> </input> <br/>
+                    <input class="add_field" required="true" type="text" placeholder="Year" name="ngo_year"> </input> <br/>
+                    <textarea class="add_field" required="true" rows="20" placeholder="News" name="ngo_news" > </textarea> <br/>
+                    <input class="add_field" type="text" required="true" placeholder="Author" name="ngo_author"> </input> <br/>
 
                     NGO:
                     <select name="ngo_parent">
@@ -138,6 +145,17 @@
 
                     <table> {{ ngo_image_form.as_table }} </table> <br/><br/>
                     <input type="submit" value="Add NGO Post"> </input>
+                </form>
+            </div>
+
+            <div class="add_ngo">
+                Add NGO <br/><br/>
+                <form action="/admin_add_ngo_parent/" method="post" enctype="multipart/form-data" id="form_ngo_add">
+                    {% csrf_token %}
+                    <input class="add_field" type="text" placeholder="Name" name="ngo_name" required="True"> </input><br/>
+                    <input class="add_field" type="url" placeholder="Website" name="ngo_site" required="True"> </input><br/>
+                    <table> {{ ngo_image_form.as_table }} </table> <br/><br/>
+                    <input type="submit" value="Add NGO"> </input>
                 </form>
             </div>
         </div>

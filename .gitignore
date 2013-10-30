@@ -1,3 +1,5 @@
-
+static/img/database_items/*.jpeg
+static/img/database_items/*.png
+static/img/database_items/*.jpg
 *.pyc
 local.sqlite
