@@ -1,13 +1,11 @@
-<!DOCTYPE html>
+{% extends "base_generic.html" %}
 
-<html>
-<head>
-	<link rel="stylesheet" href="/static/css/reset.css" />
-	<link rel="stylesheet" href="/static/css/main2.css" />
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
-	<script type = "text/javascript" src= "http://code.jquery.com/jquery-1.9.1.js"></script>
+{% block css %}
 	<script type = "text/javascript" src="/static/js/home_slide.js"></script>
 	<link href="/static/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+{% endblock %}
+
+{% block js %}
 	<script type="text/javascript">
 	$(window).bind("load", function() {
 		var numSlides = 2;
@@ -39,52 +37,50 @@
 		});
 	});
 	</script>
+{% endblock %}
 
-	<title></title>
-</head>
-<body>
-	<div id="main_body">
-		{% include 'menu.html' %}
-		<div id="slideshow">
-			{% for post in major_posts|slice:":2" %}
-				<div class="slide" id="slide{{forloop.counter}}"/>
-				<a href="post_{{post.ngo.name|slugify}}_{{post.post_id}}"><img class="slide_img" src="{{ post.image.path | slice:"44:" }}" /></a>
-				<div class="slide_descrip">
-					<div class="slide_title"> {{ post.title }} </div>
-					<div class="slide_news"> {{ post.news }} </div>
-				</div>
-				</div>
-			{% endfor %}
+{% block content %}
+<div id="slideshow">
+	{% for post in major_posts|slice:":2" %}
+		<div class="slide" id="slide{{forloop.counter}}"/>
+		<a href="post_{{post.post.ngo.name|slugify}}_{{post.post.post_id}}"><img class="slide_img" src="{{ post.image_link }}" /></a>
+		<div class="slide_descrip">
+			<div class="slide_title"> {{ post.post.title }} </div>
+			<div class="slide_news"> {{ post.post.news }} </div>
 		</div>
-
-		<div id="most_popular">
-			<div class="section_title"> Most Popular </div> 
-
-			<div id="sort_field">
-				<div style="font-size: 20px; margin-bottom: 10px; width: 150px;"> Sort By Topic </div>
-				<select id="choices">
-					<option value="all">All</option>
-					<option value="environmental">Environmental</option>
-					<option value="justice">Justice</option>
-					<option value="international">International</option>
-					<option value="health">Health</option>
-					<option value="education">Education</option>
-					<option value="energy">Energy</option>
-				</select>
-			</div>
-			{% for post in all_posts|slice:":3" %}
-				<div class="section_item {% for class in post.classifications.all %}{{class.classification}} {% endfor %}">
-					<div class="item_ngo_name"> {{ post.ngo.name }} </div>
-					<div class="item_title"> {{ post.title }} </div>
-					<a href="post_{{post.ngo.name|slugify}}_{{post.post_id}}"><img class="item_img" src={{ post.image.path | slice:"44:" }} /></a>
-					<div class="item_news"> {{ post.news }} </div>
-				</div>
-			{% endfor %}
-
-			<a href="#" class="classname" style="position: absolute; top: 650px; left: 525px;">Show More</a>
 		</div>
+	{% endfor %}
+</div>
 
+<div id="most_popular">
+	<div class="section_title"> Most Popular </div> 
+	<div id="sort_field">
+		<div style="font-size: 20px; margin-bottom: 10px; width: 150px;"> Sort By Topic </div>
+		<select id="choices">
+			<option value="all">All</option>
+			<option value="environmental">Environmental</option>
+			<option value="justice">Justice</option>
+			<option value="international">International</option>
+			<option value="health">Health</option>
+			<option value="education">Education</option>
+			<option value="energy">Energy</option>
+		</select>
 	</div>
+	{% for post in all_posts|slice:":3" %}
+		<div class="section_item {% for class in post.post.classifications.all %}{{class.classification}} {% endfor %}">
+			<div class="item_ngo_name"> {{ post.post.ngo.name }} </div>
+			<div class="item_title"> {{ post.post.title }} </div>
+			<a href="post_{{post.post.ngo.name|slugify}}_{{post.post.post_id}}"><img class="item_img" src={{ post.image_link }} /></a>
+			<div class="item_news"> {{ post.post.news }} </div>
+		</div>
+	{% endfor %}
+
+	<a href="#" class="classname" style="position: absolute; top: 650px; left: 525px;">Show More</a>
+</div>
+
+{% endblock %}
+
+{% block other_content %}
 	<div id="side_menu">
 		<div class="side_menu_item" id="side_menu_title">Quick Links</div>
 		<div class="side_menu_item">Environmental</div>
@@ -94,6 +90,9 @@
 		<div class="side_menu_item">Education</div>
 		<div class="side_menu_item">Energy</div>
 	</div>
+{% endblock %}
+
+{% block bottom_js %}
 	<script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<script>
 	(function($){
@@ -109,5 +108,4 @@
 		});
 	})(jQuery);
 	</script>
-</body>
-</html>
+{% endblock %}

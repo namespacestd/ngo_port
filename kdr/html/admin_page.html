@@ -1,0 +1,147 @@
+
+{% extends "base_generic.html" %}
+
+{% block css %}
+    <style>
+        .login_box {
+            margin-top: 50px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 25px;
+        }
+        #login_request {
+            margin-top: 20px;
+        }
+
+        .admin_panel {
+            position: relative;
+            margin-top: 50px;
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 25px;
+        }
+
+        .ngo_display {
+            font-size: 18px;
+            float: left;
+            position: absolute;
+            width: 500px;
+            margin-left: 30px;
+        }
+
+        .ngo_post_cell {
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .add_ngo {
+            position: absolute;
+            right: 30px;
+            width: 500px;
+            font-size: 18px;
+        }
+        .image_sample {
+            width: 300px;
+        }
+
+        .add_field {
+            width: 400px;
+            resize: none;
+        }
+        #textfield {
+            height: 500px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+    {% if not is_authenticated %}
+        <div class="login_box">
+            Please login below. Only administrators may access this panel.
+            <form id="login_request" action="/login_request" method="post">
+                {% csrf_token %} 
+                <input name="username" placeholder="Username" type="text"></input>
+                <input name="password" placeholder="Password" type="password"> </input>
+                <input type="submit" value="Login"> </input>
+            </form>
+        </div>
+    {% else %}
+        <div class="admin_panel">
+            Welcome, {{ current_user.username }}.
+        
+            <div class="ngo_display">
+                Current NGO Posts <br/><br/>
+
+                {% for post in all_posts %}
+                    <img class="image_sample" src="{{ post.image_link }}"/>
+                    <div class="ngo_post_cell">
+                        Title: {{ post.post.title }} <br/><br/>
+                        Month: {{ post.post.month }} <br/>
+                        Year: {{ post.post.year }} <br/><br/>
+                        News: {{ post.post.news }} <br/><br/>
+                        Author: {{ post.post.author }} <br/>
+                        NGO: {{ post.post.ngo }}<br/>
+                        Classifications: {% for class in post.post.classifications.all %} {{ class.classification }}, {% endfor %}
+                    </div>
+                    <form action="/admin_delete_ngo/" method="post">
+                        {% csrf_token %}
+                        <input name="ngo_id" style="display: none;" value="{{post.post.post_id}}"> </input>
+                        <input type="submit" value="Delete NGO Post"> </input>
+                    </form>
+                    <br/><br/>
+                {% endfor %}
+                
+            </div>
+
+            <div class="add_ngo">
+                Add NGO Post <br/><br/>
+
+                <form action="/admin_add_ngo/" method="post" enctype="multipart/form-data" id="form_ngo_add">
+                    {% csrf_token %}
+
+                    <input class="add_field" type="text" placeholder="Title" name="ngo_title"> </input> <br/>
+                    Month: <select name="ngo_month">
+                        <option value="January"> January </option>
+                        <option value="February"> February </option>
+                        <option value="March"> March </option>
+                        <option value="April"> April </option>
+                        <option value="May"> May </option>
+                        <option value="June"> June </option>
+                        <option value="July"> July </option>
+                        <option value="August"> August </option>
+                        <option value="September"> September </option>
+                        <option value="October"> October </option>
+                        <option value="November"> November </option>
+                        <option value="December"> December </option>
+                    </select> <br/>
+                    <input class="add_field" type="text" placeholder="Year" name="ngo_year"> </input> <br/>
+                    <textarea class="add_field" rows="20" placeholder="News" name="ngo_news" > </textarea> <br/>
+                    <input class="add_field" type="text" placeholder="Author" name="ngo_author"> </input> <br/>
+
+                    NGO:
+                    <select name="ngo_parent">
+                        {% for ngo in ngos %}
+                            <option value="{{ngo.name}}">{{ngo.name}}</option>
+                        {% endfor %}
+                    </select><br/><br/>
+                    Classifications: (Hold tab to select multiple) <br/><br/>
+                    <select name="ngo_class" multiple>
+                        {% for class in classifications %}
+                            <option value="{{class.classification}}">{{class.classification}}</option>
+                        {% endfor %}
+                    </select><br/><br/>
+
+                    <table> {{ ngo_image_form.as_table }} </table> <br/><br/>
+                    <input type="submit" value="Add NGO Post"> </input>
+                </form>
+            </div>
+        </div>
+    {% endif %}    
+
+
+{% endblock %}

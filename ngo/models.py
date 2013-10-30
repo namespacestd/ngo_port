@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from django_extensions.db.fields import UUIDField
 import uuid
 
 class NGO(models.Model):
@@ -47,9 +48,9 @@ class NGO_Post(models.Model):
 	author = models.CharField(max_length=30, blank=True)
 	original_link = models.URLField()
 	ngo = models.ForeignKey(NGO)
-	image = models.ImageField(upload_to="kdr/static/img/database_items/")
+	image = models.ImageField(upload_to="static/img/database_items/")
 	classifications = models.ManyToManyField(NGO_Classification)
-	post_id = models.IntegerField(unique=True, default=0)
+	post_id = UUIDField()
 
 	def __unicode__(self):
 		return self.title
