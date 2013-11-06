@@ -243,3 +243,9 @@ a:visited {
 .slide_news {
   height: 328.5px;
 }
+
+#twitter_feed {
+  position: fixed;
+  top: 150px;
+  right: 0px;
+}
